@@ -4,8 +4,10 @@ CREATE TABLE IF NOT EXISTS %s.%s (
     isfavorite INT NULL,
     license INT NULL,
     safety_level INT NULL,
-    created_at TIMESTAMP NOT NULL,
-    date DATE NULL,
+    posted_created_at TIMESTAMP NOT NULL,
+    posted_date DATE NULL,
+    taken_created_at TIMESTAMP NOT NULL,
+    taken_date DATE NULL,
     farm INT NULL,
     title TEXT NULL,
     visibility_ispublic INT NULL,
@@ -35,4 +37,4 @@ WHERE NOT EXISTS (SELECT column_name FROM information_schema.columns
 		        table_name ='%s' AND
 			    column_name = 'coordinates');
 
-CREATE INDEX IF NOT EXISTS date_%s_ix ON %s.%s (date);
+CREATE INDEX IF NOT EXISTS date_%s_ix ON %s.%s (posted_date);

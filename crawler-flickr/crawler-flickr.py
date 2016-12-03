@@ -32,6 +32,7 @@ if __name__ == '__main__':
     videos_path = []
     conn_table = []
     conn_schema = []
+    time_lag = []
     
     try:
         ''' get parameters from config file '''
@@ -46,9 +47,9 @@ if __name__ == '__main__':
                 if param[0] == 'connection.search_word': search_word.append(param[1].split(',')[0]) if param[1].split(',')[0] != '' else search_word.append(None)                
                 if param[0] == 'connection.images_path': images_path.append(param[1])
                 if param[0] == 'connection.videos_path': videos_path.append(param[1])
+                if param[0] == 'connection.time_lag': time_lag.append(int(param[1]))
                 if param[0] == 'database.table': conn_table.append(param[1].split(',')[0])
                 if param[0] == 'database.schema': conn_schema.append(param[1].split(',')[0])
-
 
             ''' format bounding box '''
             if (len(bounding_box_format)>2):
@@ -64,7 +65,7 @@ if __name__ == '__main__':
             crawler.append(
                 FlickrApiScrap(path_home=path_home, conn_sec=conn, schema=conn_schema[i], table=conn_table[i],
                                api_key=api_key[i], api_secret=api_secret[i], images_path=images_path[i],
-                               videos_path=videos_path[i], geo=bounding_box[i], searchword=search_word[i]))
+                               videos_path=videos_path[i], geo=bounding_box[i], searchword=search_word[i], time_lag=time_lag[i]))
         while True:
             for i, conn in enumerate(cfg.sections()):
                 if not crawler[i].isAlive():

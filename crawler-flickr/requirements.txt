@@ -1,7 +1,6 @@
 configparser
 oauthlib
 psycopg2
-pymongo
 pytz
 requests
 requests-oauthlib

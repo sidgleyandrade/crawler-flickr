@@ -2,8 +2,10 @@ class FlickrMessage():
     def __init__(self):
         self.id = None
         self.secret = None
-        self.created_at = None
-        self.date = None
+        self.posted_created_at = None
+        self.posted_date = None
+        self.taken_created_at = None
+        self.taken_date = None
         self.isfavorite = None
         self.license = None
         self.safety_level = None
