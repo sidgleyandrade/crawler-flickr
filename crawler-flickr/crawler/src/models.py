@@ -1,4 +1,4 @@
-class FlickrMessage():
+class FlickrMessage:
     def __init__(self):
         self.id = None
         self.secret = None
@@ -22,14 +22,14 @@ class FlickrMessage():
         self.urls = []
 
 
-class FlickrOwner():
+class FlickrOwner:
     def __init__(self):
         self.nsid = None
         self.username = None
         self.location = None
 
 
-class FlickrLocation():
+class FlickrLocation:
     def __init__(self):
         self.id = None
         self.accuracy = None

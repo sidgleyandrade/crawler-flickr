@@ -1,29 +1,32 @@
-__title__ = 'crawler-flickr'
-__author__ = 'Sidgley Camargo de Andrade'
-__license__ = 'GPLv3'
-
 import configparser
 import os
 import sys
 import logging
 import time
+import multiprocessing
+from itertools import repeat
 
 from crawler.src.FlickrApiScrap import FlickrApiScrap
 
-''' main function '''
-if __name__ == '__main__':
 
+def warp(args):
+    FlickrApiScrap(*args)
+
+def main():
+    # Get the parameters from setup.cfg.
     path_home = os.path.dirname(os.path.realpath(__file__)) + '/crawler'
-
     cfg = configparser.ConfigParser()
     cfg.read(path_home + '/setup.cfg')
 
-    ''' creates log file '''
+    # Create error log file
     logging.basicConfig(filename=sys.argv[0].split(".")[0] + '.log',
-                        format='%(asctime)s\t %(name)s\t [%(process)d] %(processName)s\t %(threadName)s\t %(module)s\t %(funcName)s\t %(lineno)d \t %(levelname)s:%(message)s',
+                        format='%(asctime)s\t%(name)s\t[%(process)d]\t'
+                               '%(processName)s\t%(threadName)s\t'
+                               '%(module)s\t%(funcName)s\t%(lineno)d\t'
+                               '%(levelname)s:%(message)s',
                         level=logging.ERROR)
 
-    ''' initial variables of connections '''
+    # List of parameters of configuration to create the connections threads.
     api_key = []
     api_secret = []
     bounding_box = []
@@ -35,7 +38,6 @@ if __name__ == '__main__':
     time_lag = []
     
     try:
-        ''' get parameters from config file '''
         for conn in cfg.sections():
             params = cfg.items(conn)
             bounding_box_format = ''
@@ -51,27 +53,23 @@ if __name__ == '__main__':
                 if param[0] == 'database.table': conn_table.append(param[1].split(',')[0])
                 if param[0] == 'database.schema': conn_schema.append(param[1].split(',')[0])
 
-            ''' format bounding box '''
-            if (len(bounding_box_format)>2):
+            # Format bounding box.
+            if len(bounding_box_format) > 2:
                 for k, geo in enumerate(bounding_box_format):
                     bounding_box_format[k] = (float(geo))
             else:
                 bounding_box_format = None
             bounding_box.append(bounding_box_format)
 
-        crawler = list()
-
-        for i, conn in enumerate(cfg.sections()):
-            crawler.append(
-                FlickrApiScrap(path_home=path_home, conn_sec=conn, schema=conn_schema[i], table=conn_table[i],
-                               api_key=api_key[i], api_secret=api_secret[i], images_path=images_path[i],
-                               videos_path=videos_path[i], geo=bounding_box[i], searchword=search_word[i], time_lag=time_lag[i]))
-        while True:
-            for i, conn in enumerate(cfg.sections()):
-                if not crawler[i].isAlive():
-                    crawler[i].start()
-            time.sleep(10)
+        pool = multiprocessing.Pool(len(cfg.sections()))
+        crawler_args = zip(repeat(path_home), cfg.sections(), conn_schema,
+                           conn_table, api_key, api_secret, images_path,
+                           videos_path, bounding_box, search_word, time_lag)
+        pool.map(warp, crawler_args)
 
     except Exception as e:
         logging.error(e)
         exit(0)
+
+if __name__ == '__main__':
+    main()
