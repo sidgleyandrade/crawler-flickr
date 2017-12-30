@@ -68,9 +68,11 @@ class FlickrApiScrap:
         except Exception as e:
             self.running = False
             logging.error(e)
+            pass
 
 
 class MyStreamListener:
+
     def __init__(self, api, crud, conn_sec, conn_schema, conn_table, geo,
                  search_word, min_upload_date):
         self.api = api
@@ -141,7 +143,6 @@ class MyStreamListener:
                         raw_photo = self.api.photos.getInfo(photo_id=item['id'])
                         json_photo = json.loads(raw_photo.decode('utf-8'))
                         # Save the photo info
-                        # print(self.conn_sec, json_photo)
                         self.crud.save(message=json_photo,
                                        conn_table=self.conn_schema + '.' + self.conn_table)
         except Exception as e:
