@@ -1,6 +1,6 @@
 # crawler-flickr
 
-crawler-flickr is an implementation multi-bounding-box using flickrapi and postgresql to collect and store Flickr messages (structured and json format).
+**crawler-flickr** is an implementation multi-bounding-box using flickrapi and postgresql to collect and store Flickr messages (structured and json format).
 
 ## Dependencies
 
@@ -11,7 +11,7 @@ crawler-flickr is an implementation multi-bounding-box using flickrapi and postg
 
 ## Configuration
 
-* To create a database with the extension postgis. It is not necessary to create tables, crawler-flickr will create the tables from the config file parameters (`segup.cfg`).
+* To create a database with the extension postgis. It is not necessary to create tables, **crawler-flickr** will create the tables from the config file parameters (`segup.cfg`).
 * To configure the connections in the `setup.cfg` file, as follow:
 
     * __Bounding box connection__
@@ -57,14 +57,13 @@ crawler-flickr is an implementation multi-bounding-box using flickrapi and postg
 
 **Note:** `connection.bounding_box` and `connection.search_word` are exclusive parameters.
 
-
 ## Running
 
     $ ./run.sh
 
 ## Contact
 
-If you believe you have found a bug, or would like to ask for a feature or contribute to the project, please inform me at sidgleyandrade@utfpr.edu.br.
+If you believe you have found a bug, or would like to ask for a feature or contribute to the project, please inform me at sidgleyandrade[at]utfpr[dot]edu[dot]br.
 
 ## License
 
