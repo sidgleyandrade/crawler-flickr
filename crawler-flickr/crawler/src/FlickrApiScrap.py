@@ -2,8 +2,8 @@ import flickrapi
 import json
 import logging
 import datetime
-from datetime import timedelta
 
+from datetime import timedelta
 from crawler.src.CRUD import CRUD
 from crawler.src.db.DBConnection import DBConnection
 
@@ -50,6 +50,7 @@ class FlickrApiScrap:
             cur.execute(template)
             conn.commit()
         except Exception as e:
+            logging.error(e)
             raise e
         finally:
             conn.close()
@@ -142,7 +143,7 @@ class MyStreamListener:
                     for item in json_photos['photos']['photo']:
                         raw_photo = self.api.photos.getInfo(photo_id=item['id'])
                         json_photo = json.loads(raw_photo.decode('utf-8'))
-                        # Save the photo info
+                        # Save the photo info.
                         self.crud.save(message=json_photo,
                                        conn_table=self.conn_schema + '.' + self.conn_table)
         except Exception as e:

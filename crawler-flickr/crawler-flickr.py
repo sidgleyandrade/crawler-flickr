@@ -3,8 +3,8 @@ import os
 import sys
 import logging
 import multiprocessing
-from itertools import repeat
 
+from itertools import repeat
 from crawler.src.FlickrApiScrap import FlickrApiScrap
 
 
@@ -42,15 +42,24 @@ def main():
             bounding_box_format = ''
 
             for param in params:
-                if param[0] == 'connection.api_key': api_key.append(param[1])
-                if param[0] == 'connection.api_secret': api_secret.append(param[1])                
-                if param[0] == 'connection.bounding_box': bounding_box_format = param[1].split(',')
-                if param[0] == 'connection.search_word': search_word.append(param[1].split(',')[0]) if param[1].split(',')[0] != '' else search_word.append(None)                
-                if param[0] == 'connection.images_path': images_path.append(param[1])
-                if param[0] == 'connection.videos_path': videos_path.append(param[1])
-                if param[0] == 'connection.time_lag': time_lag.append(int(param[1]))
-                if param[0] == 'database.table': conn_table.append(param[1].split(',')[0])
-                if param[0] == 'database.schema': conn_schema.append(param[1].split(',')[0])
+                if param[0] == 'connection.api_key':
+                    api_key.append(param[1])
+                if param[0] == 'connection.api_secret':
+                    api_secret.append(param[1])
+                if param[0] == 'connection.bounding_box':
+                    bounding_box_format = param[1].split(',')
+                if param[0] == 'connection.search_word': search_word.append(param[1].split(',')[0]) \
+                    if param[1].split(',')[0] != '' else search_word.append(None)
+                if param[0] == 'connection.images_path':
+                    images_path.append(param[1])
+                if param[0] == 'connection.videos_path':
+                    videos_path.append(param[1])
+                if param[0] == 'connection.time_lag':
+                    time_lag.append(int(param[1]))
+                if param[0] == 'database.table':
+                    conn_table.append(param[1].split(',')[0])
+                if param[0] == 'database.schema':
+                    conn_schema.append(param[1].split(',')[0])
 
             # Format bounding box.
             if len(bounding_box_format) > 2:
